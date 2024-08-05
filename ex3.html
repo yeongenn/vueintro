@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    빌트인 디렉티브<br />
+    html 태그 안에 들어가는 속성 역할을 하며, v- 라는 접두어가 붙는다
+    <br />
+    디렉티브는 DOM element가 뭔가를 수행하도록 지시하는 특수한 토큰이다
+    <div id="app">
+      <a href="{{link}}">링크 (이런 방식으로 하면 X - 에러남!)</a><br>
+
+      <!-- directive 사용  : 동적으로 href 속성을 vue 인스턴스의 link 데이터 속성과 연결(binding) -->
+      <a v-bind:href="link">링크링크(이렇게 해야한다~ - v-bind)</a><br>
+      <a :href="link">링크링크(이렇게 해야한다~ - v-bind 생략 가능)</a>
+
+      <!-- image 태그-->
+      <img v-bind:src="imageSrc" alt="동적 이미지"/>
+      <br>
+
+      <!-- v-text -->
+      <!-- a 태그 아니면 mustache 사용 가능 -->
+      <h4 v-text="say">data 속성값 1</h4> <!-- v-text가 덮어쓴다 -->
+      <h4>data 속성값 1 : {{say}}</h4>
+
+      <!-- v-once : 한번만 실행되고 실행되지 않는다 -->
+      <h4 v-once="say">data 속성값 2 : {{say}}</h4>
+
+      <!-- 함수 호출하기 -->
+      <h4>함수 호출 결과 : {{sayFunc()}}</h4>
+
+      <!-- v-text / v-html 차이 -->
+      <span v-text="aLinkNaver">v-text : innerText</span><br>
+      <span v-html="aLinkNaver">v-html : innerHtml</span><br>
+      <br>
+      <br>
+
+
+      <!-- 양방향 데이터 바인딩 : v-model = v-bind + v-on -->
+      이름은 <input type="text" v-model="name" /> {{name}} <br/>
+      이름은 <input type="text" v-bind:value="name" v-on:input="changeName" /> {{name}} <br/>
+      이름은 <input type="text" :value="name" @input="changeName" /> {{name}} <br/>
+      <hr>
+
+      <!-- 계산된 property 관련 -->
+      a = {{a}}, b = {{b}}<br>
+      a값 입력 : <input type="text" v-model="a" /> <!-- a의 타입은 : string -->
+      <br>
+      입력된 a : {{a}} (타입은 : {{typeof a}})<br> 
+      <!-- 문자열 a를 숫자로 캐스팅하고 싶다면? -->
+      a값 입력 : <input type="text" v-model.number="a" /> <!-- a의 타입은 : number -->
+
+      <hr>
+      제어문 - 조건판단문<br>
+      <h3 v-if="nai > 20">nai가 20 초과</h3>
+      <h3 v-else-if="nai === 20">nai가 20</h3>
+      <h3 v-else>nai가 20 미만</h3>
+      <br>
+      제어문 - 반복문 for<br>
+      <h3>오늘 할 일</h3>
+      <ol>
+        <!-- 배열 출력시 index(key)값 부여하기(권장) -->
+        <li v-for="(todo, index) in todos" :key="index">{{todo.msg}}</li>
+      </ol>
+
+      <ul>
+        <!-- 배열 출력시 index(key)값 부여하기(권장) - index는 0부터 시작 -->
+        <li v-for="(todo, index) in todos" :key="index">({{index + 1}}) {{todo.msg}}</li>
+      </ul>
+
+
+
+    </div>
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            link: "https://cafe.daum.net/flowlife",
+            imageSrc: "google.gif",
+            say: "월요일ㅠㅠ",
+            aLinkNaver:"<a href='https://www.naver.com'>네이버~</a>",
+            name: "ye",
+            a:'1', // 문자열 데이터
+            nai:23,
+            todos:[ // 배열 데이터
+                {msg:'아침 먹고'},
+                {msg:'점심 먹고'},
+                {msg:'집에 가기'},
+            ],
+          };
+        },
+        methods: {
+            sayFunc(){
+                this.say = '더위 절정'
+                return this.say;
+            },
+            changeName(e){ // event handler
+                this.name = e.target.value;
+            },
+
+        },
+        // computed properties : 함수처럼 작동
+        // 계산된 프로퍼티가 의존하는 요소가 변동되면 반응
+        computed:{
+            b(){
+                return  this.a + 1;
+            }
+        }
+      }).mount('#app');
+
+    </script>
+  </body>
+</html>
