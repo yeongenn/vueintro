@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h3>성적 입력</h3>
+        <!-- .prevent : submit 이벤트가 페이지를 다시 로드하지 X -->
+        <form v-on:submit.prevent="gradeForm">
+            <!--이  름 : <input type="text" v-model="name"/><br> -->
+            이  름 : <input type="text" ref="name"/><br>
+            자  바 : <input type="text" v-model.number="java"/><br>
+            리액트 : <input type="text" v-model.number="react"/><br>
+            <!-- input type="number"로 지정해 주면 v-model.number 해줄 필요 X -->
+            ㅂ  ㅠ : <input type="number" v-model="vue"/><br>
+            <button type="submit">확 인</button>
+        </form>
+
+        <!--
+        $ref
+        DOM에 직접 접근하기(JS의 querySelector와 비슷한 역할)
+        접근하고자 하는 태그에 ref 속성명 할당, 이때 ref는 id처럼 중복 불가
+        $refs로 해당 태그에 접근 가능, component가 렌더링 된 후 접근 가능
+        BUT
+        이렇게 직접 DOM에 접근하는 방법은 지양하기
+        Virtual DOM이 의미가 없어진다
+        -->
+
+        <br>
+        <br>
+        <h3>입력 결과</h3>
+        <ul>
+            <li v-for="(i, index) in list" :key="index">
+                {{i.name}} : {{i.java}}  {{i.react}}  {{i.vue}} 개인 총점 : {{i.myScore}}
+            </li>
+        </ul>
+        <br>
+        <br>
+        <h3>전체 통계</h3>
+        인원수 : {{count}}명, 전체 총점 : {{totalScore}}점
+    </div>
+
+    <script src="ex9.js"></script>
+    
+
+</body>
+</html>
