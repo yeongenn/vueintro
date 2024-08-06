@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <!-- Bootstrap - CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+    조건부 렌더링을 위한 v-if 연습<br>
+    <hr>
+    <div id="app">
+        <p v-if="season">여름 더워</p>
+        <p v-else>겨울 추워</p>
+
+        <!-- toggle key -->
+        <button @click = "season = !season" class="btn btn-success">결과 바꾸기</button>
+        <br>
+
+        <!-- 조건, 반복 렌더링을 할 때 유용한 특수 html tag -->
+        <!-- template 태그가 렌더링되는 것이 아니라 태그 안 내용이 렌더링 된다 -->
+        <template v-if="season">
+            <p>옷 입기 편해</p>
+            <p>벌레 많아ㅜㅜ</p>
+        </template>
+        <template v-else>
+            <p>벌레 저리가</p>
+            <p>눈이다~</p>
+        </template>
+
+        <!-- v-if / v-show -->
+        <!-- v-if는 조건에 따라 컴포넌트가 실제로 제거되고 생성,  v-show 는 단순히 css 의 display 속성만 변경 -->
+        <!-- v-show는 template 태그에서는 사용 X -->
+        <br>
+        <span v-show="season">
+            <p>여름이야~~~</p>
+        </span>
+
+        <p v-if="season">여름 - false인 경우 코드가 제거</p>
+        <p v-show="season">여름 - false인 경우 display:none</p>
+
+        <hr>
+        <label><input type="checkbox" v-model="myVisible"> 체크박스 표시</label>
+        <p v-if="myVisible">Check on</p>
+        <p v-else>Check off</p>
+
+        <!-- count 값에 따른 조건부 랜더링-->
+        <p v-if="count === 10">{{count}}번 클릭! 버튼 비활성화</p>
+        <p v-else-if="count >= 1">현재 클릭 횟수 : {{count}}</p>
+        <p v-else>버튼을 클릭하세욤</p>
+        <br>
+        <button v-bind:disabled="count === 10" @click="addFunc">숫자 늘림</button>
+
+
+
+    </div>
+    <script>
+        const {createApp} = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    season:true,    // true(여름), false(겨울)
+                    myVisible:false,    // checkbox 상태 초기화
+                    count:0,
+                }
+            },
+            methods: {
+                addFunc(){
+                    this.count++;
+                },
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>
