@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="fetchData">도서관 자료 읽기</button><br>
+        <button @click="clearData">자료 지우기</button><br>
+        
+        <div v-for="(lib, index) in libraries" :key="index">
+            <h3>{{lib.LBRRY_NAME}}</h3>
+            주소 : {{lib.ADRES}}<br>
+            전화 : {{lib.TEL_NO}}<hr>
+        </div>
+    </div>
+    <script>
+        const {createApp} = Vue;
+
+        createApp({
+            data() {
+                return {
+                    // 읽어온 자료 담아둘 변수
+                    libraries:[]
+                }
+            },
+            methods: {
+                // fetch로 데이터 가져오기
+                fetchData(){
+                    fetch('https://raw.githubusercontent.com/pykwon/python/master/seoullibtime5.json')
+                    .then(response => {
+                        if(!response.ok){
+                            throw new Error('AJAX 에러');
+                        }
+                        return response.json(); // JSON 형태의 문자열을 JSON 데이터로
+                    })
+                    .then(jsonData => {
+                        this.libraries = jsonData.SeoulLibraryTime.row;
+                    })
+                    .catch(error => {
+                        console.log('읽어오기 에러 : ', error);
+                    })
+                },
+                clearData(){
+                    this.libraries = [];
+                }
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>
