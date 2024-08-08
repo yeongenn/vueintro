@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="showFunc">직원 자료 읽기(AJAX)</button>
+        <br>
+        <!-- 조건부 렌더링 -->
+        <table v-if="jikdatas.length > 0">
+            <tr>
+                <th>사번</th>
+                <th>이름</th>
+                <th>부서명</th>
+                <th>직급</th>
+            </tr>
+            <tr v-for="(jikwon, index) in jikdatas" :key="index">
+                <td>{{jikwon.jno}}</td>
+                <td>{{jikwon.jname}}</td>
+                <td>{{jikwon.bname}}</td>
+                <td>{{jikwon.jik}}</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        //
+        const {createApp} = Vue;
+
+        createApp({
+            data() {
+                return {
+                    jikdatas:[]
+                }
+            },
+            methods: {
+                showFunc(){
+                    fetch('http://localhost:8080/web_react/jikwon.jsp')
+                    .then(response => {
+                        if(!response.ok){
+                            throw new Error('AJAX 에러');
+                        }
+                        return response.json();
+                    })
+                    .then(jsonData => {
+                        this.jikdatas = jsonData.jikwons;
+                    })
+                    .catch(error => {
+                        console.log('읽어오기 에러 : ', error);
+                    })
+                }
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>
