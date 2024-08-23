@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dividercomponent</title>
+  </head>
+  
+  <!-- Vuetify CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/vuetify@3.7.0/dist/vuetify.min.css"
+  />
+  <body>
+        <div id="app">
+                <v-card class="mx-auto" max-width="425">
+                  <v-list lines="two">
+                    <v-list-subheader>T</v-list-subheader>
+              
+                    <v-list-item
+                      prepend-avatar="https://cdn.vuetifyjs.com/images/lists/1.jpg"
+                      title="Brunch this weekend?"
+                    >
+                      <template v-slot:subtitle>
+                        <span class="font-weight-bold">Ali Connors</span> &mdash; I'll be in
+                        your neighborhood doing errands this weekend. Do you want to hang out?
+                      </template>
+                    </v-list-item>
+              
+                    <v-divider inset></v-divider>
+              
+                    <v-list-item
+                      prepend-avatar="https://cdn.vuetifyjs.com/images/lists/2.jpg"
+                    >
+                      <template v-slot:title>
+                        Summer BBQ <span class="text-grey-lighten-1">4</span>
+                      </template>
+              
+                      <template v-slot:subtitle>
+                        <span class="font-weight-bold">to Alex, Scott, Jennifer</span> &mdash;
+                        Wish I could come, but I'm out of town this weekend.
+                      </template>
+                    </v-list-item>
+              
+                    <v-divider inset></v-divider>
+              
+                    <v-list-item
+                      prepend-avatar="https://cdn.vuetifyjs.com/images/lists/3.jpg"
+                      title="Oui oui"
+                    >
+                      <template v-slot:subtitle>
+                        <span class="font-weight-bold">Sandra Adams</span> &mdash; Do you have
+                        Paris recommendations? Have you ever been?
+                      </template>
+                    </v-list-item>
+                  </v-list>
+                </v-card>
+              
+        </div>
+  </body>
+  <script src="https://unpkg.com/vue@3"></script>
+  <!-- Vuetify JS -->
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.0/dist/vuetify.min.js"></script>
+  <script>
+    const { createApp } = Vue;
+    const { createVuetify } = Vuetify;
+
+    const vuetify = createVuetify({
+        theme: {
+            defaultTheme: 'dark',
+        },
+    });
+
+    const app = createApp();
+    app.use(vuetify).mount("#app");
+  </script>
+</html>
