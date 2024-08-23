@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Vue.js CDN-->
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="showFunc">list</button>
+        <br>
+        <br>
+        <table border="1">
+            <thead>
+                <tr>
+                <th>아이디</th>
+                <th>이름</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(list, index) in list" :key="index">
+                    <td><a href="/detail/"></a>{{list.id}}</td>
+                    <td>{{list.name}}</td>
+                </tr>  
+            </tbody>
+          </table>
+    </div>
+</body>
+<script>
+    //
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          list:[],
+        };
+      },
+      methods: {
+        showFunc() {
+          // query string
+          fetch("http://localhost:80/list")
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("AJAX 에러");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log(data);
+              this.list = data;
+
+            })
+            .catch((error) => {
+              console.log("읽어오기 에러 : ", error);
+            });
+        },
+      },
+    }).mount("#app");
+  </script>
+</html>
